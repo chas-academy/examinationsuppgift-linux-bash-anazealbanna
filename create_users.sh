@@ -9,7 +9,7 @@ fi
 
 #2 Här går skriptet igenom alla argument som skickas efter skriptet.
 # @ innehåller alla namn du skickar efter skriptet.
-for user in "@"; do
+for user in "$@"; do
 
 #Här skapas användaren i hemkataloget -m.
 #Finns användaren registrerad så skickas felmeddelande och skriptet fortsätter.
@@ -37,14 +37,13 @@ chmod 700 "$HOME_DIR/Work"
 chown -R "$user":"$user" "$HOME_DIR/Documents" "$HOME_DIR/Downloads" "$HOME_DIR/Work"
 
 #Här skapas en textfil i användarenas hemkatalog med ett personligt välkomstmeddelande i första raden.
-echo "Välkommen $user" > "$HOME_DIR/Welcome.txt"
+echo "Välkommen $user" > "$HOME_DIR/welcome.txt"
 
 #I andra raden står en lista med alla användare i systemet som hämtas ifrån /etc/passwd.
-echo "Här är en lista på alla användare i systemet:" >> "$HOME_DIR/Welcome.txt"
-cut -d : -f1 /etc/passwd >> "$HOME_DIR/Welcome.txt"
+cut -d : -f1 /etc/passwd >> "$HOME_DIR/welcome.txt"
 
 #Här sätts även rättigheter till välkomstfilen med att läsa och skriva.
-chmod 600 "$HOME_DIR/Welcome.txt"
+chmod 600 "$HOME_DIR/welcome.txt"
 
 echo "Klar med konfigurering av $user."
 done
