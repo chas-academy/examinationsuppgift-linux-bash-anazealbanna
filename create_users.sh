@@ -15,15 +15,17 @@ for user in "$@"; do
 #Finns användaren registrerad så skickas felmeddelande och skriptet fortsätter.
 if id "$user" &>/dev/null; then
 echo "Användaren finns redan"
-continue
 
 else
 useradd -m "$user"
 echo "Skapar användare: $user"
 fi
 
+done
+
 #Här skapar skriptet mappar i användarnas hemkatalog
 #Här tilldelas variabeln $HOME_DIR, med användarnas hemkatalog för att slippa skriva det hela tiden.
+for user in "$@"; do
 HOME_DIR="/home/$user"
 
 mkdir -p "$HOME_DIR/Documents" "$HOME_DIR/Downloads" "$HOME_DIR/Work"
@@ -37,13 +39,14 @@ chmod 700 "$HOME_DIR/Work"
 echo "Välkommen $user" > "$HOME_DIR/welcome.txt"
 
 #I andra raden står en lista med alla användare i systemet som hämtas ifrån /etc/passwd.
-cut -d : -f1 /etc/passwd >> "$HOME_DIR/welcome.txt"
+echo "Andra användare i systemet:" >> "$HOME_DIR/welcome.txt"
+cut -d: -f1 /etc/passwd | grep -v "^$user$" >> "$HOME_DIR/welcome.txt"
 
 #Här sätts även rättigheter till välkomstfilen med att läsa och skriva.
 chmod 600 "$HOME_DIR/welcome.txt"
 
 #Här gör vi användaren till ägare av sitt hemkatalog.
-chown "$user":"$user" "$HOME_DIR"
+chown -R "$user":"$user" "$HOME_DIR"
 
 echo "Klar med konfigurering av $user."
 done
