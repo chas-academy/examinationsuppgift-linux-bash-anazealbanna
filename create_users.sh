@@ -37,13 +37,13 @@ chmod 700 "$HOME_DIR/Work"
 echo "Välkommen $user" > "$HOME_DIR/welcome.txt"
 
 #I andra raden står en lista med alla användare i systemet som hämtas ifrån /etc/passwd.
-cut -d: -f1 /etc/passwd >> "$HOME_DIR/welcome.txt"
+cut -d : -f1 /etc/passwd >> "$HOME_DIR/welcome.txt"
 
 #Här sätts även rättigheter till välkomstfilen med att läsa och skriva.
 chmod 600 "$HOME_DIR/welcome.txt"
 
 #Här gör vi användaren till ägare av sitt hemkatalog.
-chown -R "$user":"$user" "$HOME_DIR"
+chown "$user":"$user" "$HOME_DIR"
 
 echo "Klar med konfigurering av $user."
 done
