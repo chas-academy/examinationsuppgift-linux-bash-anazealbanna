@@ -43,7 +43,7 @@ echo "Välkommen $user" > "$HOME_DIR/welcome.txt"
 cut -d : -f1 /etc/passwd >> "$HOME_DIR/welcome.txt"
 
 #Här sätts även rättigheter till välkomstfilen med att läsa och skriva.
-chmod 600 "$HOME_DIR/welcome.txt"
+chmod 700 "$HOME_DIR/welcome.txt"
 
 echo "Klar med konfigurering av $user."
 done
