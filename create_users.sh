@@ -33,9 +33,6 @@ chmod 700 "$HOME_DIR/Documents"
 chmod 700 "$HOME_DIR/Downloads"
 chmod 700 "$HOME_DIR/Work"
 
-#Här ser vi om användaren faktiskt äger sina mappar.
-chown -R "$user":"$user" "$HOME_DIR/Documents" "$HOME_DIR/Downloads" "$HOME_DIR/Work"
-
 #Här skapas en textfil i användarenas hemkatalog med ett personligt välkomstmeddelande i första raden.
 echo "Välkommen $user" > "$HOME_DIR/welcome.txt"
 
@@ -43,7 +40,10 @@ echo "Välkommen $user" > "$HOME_DIR/welcome.txt"
 cut -d : -f1 /etc/passwd >> "$HOME_DIR/welcome.txt"
 
 #Här sätts även rättigheter till välkomstfilen med att läsa och skriva.
-chmod 700 "$HOME_DIR/welcome.txt"
+chmod 600 "$HOME_DIR/welcome.txt"
+
+#Här gör vi användaren till ägare av sitt hemkatalog.
+chown -R "$user":"$user" "$HOME_DIR"
 
 echo "Klar med konfigurering av $user."
 done
